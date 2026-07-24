@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>府城食記 | 台南在地美食推薦</title>
+    <meta name="description" content="跟著府城食記探索台南最道地的美食：溫體牛肉湯、度小月擔仔麵、虱目魚料理、碗粿、棺材板與冰品甜湯，收錄在地人推薦店家與美食地圖。">
+
+    <!-- PWA: Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- PWA: 主題色彩 (瀏覽器網址列 / 狀態列顏色) -->
+    <meta name="theme-color" content="#f43f5e">
+    <meta name="background-color" content="#fcf8f2">
+
+    <!-- PWA: iOS Safari 支援 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="府城食記">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+    <!-- PWA: Android / Windows -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-TileColor" content="#f43f5e">
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+
+    <!-- Google tag (gtag.js) - User Provided GA4 Code -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JQEE2PLNR8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-JQEE2PLNR8');
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            light: '#ffe4e6',
+                            DEFAULT: '#f43f5e',
+                            dark: '#be123c',
+                        },
+                        accent: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .hero-pattern {
+            background-color: #fcf8f2;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='#f43f5e' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased selection:bg-brand-light selection:text-brand-dark">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="flex items-center gap-2" onclick="trackClick('logo', 'navigation')">
+                        <i class="fa-solid fa-bowl-food text-brand text-2xl"></i>
+                        <span class="font-bold text-xl tracking-wider text-gray-900">府城食記</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="text-gray-600 hover:text-brand transition-colors px-3 py-2 text-sm font-medium" onclick="trackClick('nav_about', 'navigation')">關於台南</a>
+                    <a href="#recommendations" class="text-gray-600 hover:text-brand transition-colors px-3 py-2 text-sm font-medium" onclick="trackClick('nav_recommendations', 'navigation')">必吃推薦</a>
+                    <a href="#map" class="text-gray-600 hover:text-brand transition-colors px-3 py-2 text-sm font-medium" onclick="trackClick('nav_map', 'navigation')">美食地圖</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-brand focus:outline-none p-2" aria-label="Menu">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-brand hover:bg-brand-light/30" onclick="trackClick('mobile_nav_about', 'navigation'); toggleMobileMenu();">關於台南</a>
+                <a href="#recommendations" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-brand hover:bg-brand-light/30" onclick="trackClick('mobile_nav_recommendations', 'navigation'); toggleMobileMenu();">必吃推薦</a>
+                <a href="#map" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-brand hover:bg-brand-light/30" onclick="trackClick('mobile_nav_map', 'navigation'); toggleMobileMenu();">美食地圖</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-pattern pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center md:text-left flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 space-y-6">
+                    <div class="inline-block px-4 py-1.5 rounded-full bg-brand-light text-brand-dark font-semibold text-sm mb-2 shadow-sm border border-brand/20">
+                        <i class="fa-solid fa-map-location-dot mr-2"></i>探索台灣美食之都
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
+                        品味台南，<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-accent">每一口都是歷史</span>
+                    </h1>
+                    <p class="text-lg text-gray-600 max-w-xl mx-auto md:mx-0">
+                        從清晨的溫體牛肉湯到深夜的沙茶爐，台南的美食不僅是味覺的享受，更是百年文化的傳承。跟著我們的腳步，探索府城最道地的美味。
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4 pt-4">
+                        <a href="#recommendations" class="bg-brand hover:bg-brand-dark text-white px-8 py-3 rounded-full font-medium transition-colors shadow-lg shadow-brand/30 flex items-center justify-center gap-2" onclick="trackClick('cta_explore_food', 'hero_section')">
+                            開始探索 <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 w-full mt-10 md:mt-0 relative">
+                    <!-- Decorative blob behind image -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-brand-light to-accent/20 rounded-full blur-3xl -z-10 opacity-70"></div>
+                    
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                        <img src="https://images.unsplash.com/photo-1493770348161-369560ae357d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="台南美食拼圖" class="w-full h-auto object-cover aspect-video sm:aspect-square md:aspect-video lg:aspect-[4/3]">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end">
+                            <div class="p-6 text-white w-full">
+                                <p class="font-bold text-lg"><i class="fa-solid fa-fire mr-2 text-accent"></i>牛肉湯</p>
+                                <p class="text-sm opacity-90">每日新鮮直送溫體牛</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating badges -->
+                    <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-gray-100 flex items-center gap-3 animate-bounce" style="animation-duration: 3s;">
+                        <div class="bg-accent/10 p-3 rounded-full text-accent">
+                            <i class="fa-solid fa-star text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">米其林必比登</p>
+                            <p class="font-bold text-gray-900">多家入選</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Categories Section -->
+    <section id="recommendations" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-brand tracking-widest uppercase mb-2">Must Try</h2>
+                <h3 class="text-3xl md:text-4xl font-black text-gray-900 mb-4">來台南必吃的經典分類</h3>
+                <div class="w-24 h-1 bg-brand mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">在地人推薦，觀光客必訪。這些是構成台南美食拼圖不可或缺的重要元素。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Category Card 1 -->
+                <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 card-hover group cursor-pointer" onclick="openModal('beef-soup')">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1548943487-a2e4e43b4859?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="溫體牛肉湯" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-brand shadow-sm">
+                            <i class="fa-solid fa-fire mr-1"></i>超人氣
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                            <i class="fa-solid fa-clock"></i> <span>早晨/宵夜限定</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand transition-colors">溫體牛肉湯</h4>
+                        <p class="text-gray-600 text-sm line-clamp-2">每日凌晨從善化肉品市場直送的溫體牛肉，淋上滾燙的高湯，肉片呈現粉嫩色澤，湯頭鮮甜回甘。</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">文章牛肉湯</span>
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">六千泓佐</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Card 2 -->
+                <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 card-hover group cursor-pointer" onclick="openModal('danzi-noodles')">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="擔仔麵" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                            <i class="fa-solid fa-utensils"></i> <span>百年歷史</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand transition-colors">度小月擔仔麵</h4>
+                        <p class="text-gray-600 text-sm line-clamp-2">源自清朝光緒年間，以特製肉燥、蒜泥、鮮蝦熬煮的湯頭，搭配Q彈油麵，份量精緻，吃的是歷史的韻味。</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">度小月</span>
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">洪芋頭</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Card 3 -->
+                <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 card-hover group cursor-pointer" onclick="openModal('milk-fish')">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1615486511484-92e1720543e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="虱目魚料理" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                            <i class="fa-solid fa-fish"></i> <span>在地滋味</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand transition-colors">虱目魚料理</h4>
+                        <p class="text-gray-600 text-sm line-clamp-2">台南是虱目魚的故鄉，無論是乾煎虱目魚肚、魚皮湯還是魚腸，都能品嚐到魚肉的細緻與鮮甜，無刺處理更貼心。</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">阿堂鹹粥</span>
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">王氏魚皮</span>
+                        </div>
+                    </div>
+                </div>
+                 <!-- Category Card 4 -->
+                 <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 card-hover group cursor-pointer" onclick="openModal('savory-rice-pudding')">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1626200926732-40989f66c06a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="碗粿" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                            <i class="fa-solid fa-bowl-rice"></i> <span>傳統小吃</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand transition-colors">傳統碗粿</h4>
+                        <p class="text-gray-600 text-sm line-clamp-2">將在來米漿與香菇、肉塊、鹹蛋黃等豐富配料蒸熟，淋上特製黑豆醬油膏，口感綿密紮實，香氣四溢。</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">富盛號</span>
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">一味品</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Card 5 -->
+                <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 card-hover group cursor-pointer" onclick="openModal('coffin-bread')">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1509358271058-acd22cc93898?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="棺材板" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                            <i class="fa-solid fa-bread-slice"></i> <span>特色點心</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand transition-colors">棺材板</h4>
+                        <p class="text-gray-600 text-sm line-clamp-2">將厚片吐司炸至金黃酥脆，挖空中心後填入濃郁的雞肉奶油濃湯，再蓋上吐司蓋，外酥內軟，是中西合璧的創意美味。</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">赤崁棺材板</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Card 6 -->
+                <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 card-hover group cursor-pointer" onclick="openModal('desserts')">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="冰品甜湯" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                            <i class="fa-solid fa-ice-cream"></i> <span>甜蜜收尾</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand transition-colors">冰品與甜湯</h4>
+                        <p class="text-gray-600 text-sm line-clamp-2">炎炎夏日來碗芒果冰或八寶冰，冬天則有熱騰騰的紅豆湯圓、花生湯。台南的甜，不僅在菜裡，更在這些飯後甜點中。</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">莉莉水果店</span>
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">冰鄉</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Tainan Food Culture -->
+    <section id="about" class="py-20 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1525268323446-0505b6fe7778?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="台南街景" class="rounded-2xl shadow-xl w-full h-auto object-cover aspect-video lg:aspect-square">
+                </div>
+                <div class="lg:w-1/2 space-y-6">
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900">為什麼台南食物偏甜？</h2>
+                    <div class="w-16 h-1 bg-brand rounded-full"></div>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        常有人笑稱台南的空氣都是甜的。這其實源於歷史背景。在早期，糖是昂貴的奢侈品，只有富貴人家才能經常食用。
+                    </p>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        台南作為台灣早期的政經中心，富商巨賈雲集。廚師們為了展現主人的財力與熱情，便在菜餚中加入糖來提味。久而久之，這種「偏甜」的口味便成了台南飲食文化的重要特徵，象徵著一種富足與好客的傳統。
+                    </p>
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm mt-6 flex gap-4 items-start">
+                        <div class="bg-brand-light text-brand p-3 rounded-full shrink-0">
+                            <i class="fa-solid fa-lightbulb text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-lg mb-1">美食小貼士</h4>
+                            <p class="text-gray-600 text-sm">品嚐台南小吃時，不妨放下對甜味的預設立場，細細體會那股將鹹味層次昇華的「甘甜」，這是專屬於府城的味覺密碼。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-bowl-food text-brand text-2xl"></i>
+                        <span class="font-bold text-xl tracking-wider">府城食記</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">
+                        致力於推廣台南在地美食文化，為旅客提供最道地的小吃指南。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors" onclick="trackClick('social_fb', 'footer')"><i class="fa-brands fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors" onclick="trackClick('social_ig', 'footer')"><i class="fa-brands fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 border-b border-gray-700 pb-2 inline-block">快速連結</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-400 hover:text-brand transition-colors text-sm">關於台南</a></li>
+                        <li><a href="#recommendations" class="text-gray-400 hover:text-brand transition-colors text-sm">精選美食</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand transition-colors text-sm">聯絡我們</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand transition-colors text-sm">隱私權政策</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 border-b border-gray-700 pb-2 inline-block">訂閱美食電子報</h4>
+                    <p class="text-gray-400 text-sm mb-4">每週為您送上最新的台南新店快訊與隱藏版美食。</p>
+                    <form class="flex" onsubmit="event.preventDefault(); trackFormSubmit('newsletter'); alert('感謝您的訂閱！這只是一個示範功能。');">
+                        <input type="email" placeholder="輸入您的 Email" required class="bg-gray-800 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-1 focus:ring-brand w-full text-sm">
+                        <button type="submit" class="bg-brand hover:bg-brand-dark px-4 py-2 rounded-r-md transition-colors text-sm font-medium">訂閱</button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2024 府城食記 Tainan Food Guide. All rights reserved.</p>
+                <p class="mt-2 text-xs">此網站僅為展示用途，並已整合 Google Analytics 4。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Backdrop -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300" onclick="closeModal()"></div>
+    
+    <!-- Modal Content -->
+    <div id="modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl z-[70] hidden opacity-0 scale-95 transition-all duration-300 px-4">
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-black transition-colors focus:outline-none">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <div id="modal-img-container" class="w-full h-64 bg-gray-200">
+                <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6 sm:p-8">
+                <h3 id="modal-title" class="text-2xl sm:text-3xl font-black text-gray-900 mb-2"></h3>
+                <p id="modal-desc" class="text-gray-600 mb-6 leading-relaxed"></p>
+                
+                <h4 class="font-bold text-gray-900 mb-3 border-b pb-2">推薦店家</h4>
+                <ul id="modal-shops" class="space-y-3">
+                    <!-- Shops will be populated here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- PWA: 安裝提示按鈕 (預設隱藏，符合安裝條件時才顯示) -->
+    <button id="pwa-install-btn" class="hidden fixed bottom-5 right-5 z-[80] bg-brand hover:bg-brand-dark text-white px-5 py-3 rounded-full font-medium shadow-xl shadow-brand/40 items-center gap-2 transition-colors">
+        <i class="fa-solid fa-download"></i> 安裝APP
+    </button>
+
+    <!-- PWA: 離線狀態提示條 -->
+    <div id="offline-banner" class="hidden fixed top-16 left-0 w-full z-[90] bg-gray-900 text-white text-center text-sm py-2 px-4">
+        <i class="fa-solid fa-triangle-exclamation mr-2"></i>目前離線中，部分內容可能無法更新
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // --- GA4 Custom Event Tracking ---
+        // Function to manually send events to GA4
+        function trackClick(elementName, category) {
+            // Check if gtag is defined (it should be from the script in <head>)
+            if (typeof gtag === 'function') {
+                gtag('event', 'click', {
+                    'event_category': category,
+                    'event_label': elementName,
+                    'value': 1
+                });
+                console.log(`GA4 Event Sent: Click - ${elementName} (${category})`);
+            }
+        }
+
+        function trackFormSubmit(formName) {
+            if (typeof gtag === 'function') {
+                gtag('event', 'generate_lead', {
+                    'event_category': 'form',
+                    'event_label': formName
+                });
+                console.log(`GA4 Event Sent: Form Submit - ${formName}`);
+            }
+        }
+
+        // --- Mobile Menu Logic ---
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        }
+
+        mobileBtn.addEventListener('click', toggleMobileMenu);
+
+        // --- Modal Data and Logic ---
+        const foodData = {
+            'beef-soup': {
+                title: '溫體牛肉湯',
+                img: 'https://images.unsplash.com/photo-1548943487-a2e4e43b4859?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                desc: '台南獨有的早餐文化。每天凌晨從善化肉品市場新鮮直送的溫體牛肉，未經冷凍，保持了肉質的最佳彈性與鮮甜。店家會將生牛肉片鋪在碗底，直接澆上用牛大骨、蔬果熬煮數小時的滾燙高湯，將牛肉瞬間燙至粉紅色。吃的時候建議先喝一口原湯，再夾起肉片沾點台南特有的偏甜醬油膏與薑絲。',
+                shops: [
+                    { name: '文章牛肉湯', desc: '安平區知名老店，觀光客與在地人都愛，營業時間長。', map: '#' },
+                    { name: '六千泓佐牛肉湯', desc: '海安路名店，著名的「第一鍋」湯頭極其濃郁，需凌晨排隊。', map: '#' }
+                ]
+            },
+            'danzi-noodles': {
+                title: '度小月擔仔麵',
+                img: 'https://images.unsplash.com/photo-1552611052-33e04de081de?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                desc: '「度小月」源於早期漁民在颱風季節無法出海捕魚的「小月」期間，為了維持生計而挑著擔子賣麵。擔仔麵的精華在於那鍋祖傳的肉燥，加上蒜泥、烏醋、蝦湯，最後放上一隻剝殼鮮蝦和少許香菜。份量不大，旨在品嚐那濃郁的香氣與精緻的口感。',
+                shops: [
+                    { name: '度小月擔仔麵 本店', desc: '中正路上的百年老店，裝潢古色古香，仍保留矮灶煮麵的傳統。', map: '#' },
+                    { name: '洪芋頭擔仔麵', desc: '西門路上的另一家老字號，口味傳統，深受老台南人喜愛。', map: '#' }
+                ]
+            },
+            'milk-fish': {
+                title: '虱目魚料理',
+                img: 'https://images.unsplash.com/photo-1615486511484-92e1720543e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                desc: '台南是虱目魚養殖重鎮，對虱目魚的料理可說是出神入化。從魚頭、魚肚、魚皮到魚腸，全魚皆可入菜。最受歡迎的是無刺的煎魚肚，油脂豐富、外皮酥脆；或是來一碗清甜的魚皮湯。許多店家會搭配「鹹粥」，將飯粒煮至微軟但不糊爛，加入虱目魚肉、蚵仔等，是豐盛的台式早午餐。',
+                shops: [
+                    { name: '阿堂鹹粥', desc: '西門圓環旁的超人氣鹹粥，用料豐富實在。', map: '#' },
+                    { name: '王氏魚皮', desc: '安平區名店，魚皮湯清甜，各式小菜選擇多樣。', map: '#' }
+                ]
+            },
+            'savory-rice-pudding': {
+                title: '傳統碗粿',
+                img: 'https://images.unsplash.com/photo-1626200926732-40989f66c06a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                desc: '台南的碗粿顏色通常較深，是因為在米漿中加入了肉燥滷汁。製作時將在來米漿與香菇、豬肉塊、火燒蝦、鹹蛋黃等配料放入碗中蒸熟。食用前，店家會在碗粿上劃個十字，淋上特製的黑豆醬油膏、蒜泥和少許甜辣醬。口感Ｑ彈綿密，每一口都能吃到豐富的配料。',
+                shops: [
+                    { name: '富盛號碗粿', desc: '國華街永樂市場內的知名老店，口感扎實，醬汁獨特。', map: '#' },
+                    { name: '一味品碗粿', desc: '同樣位於國華街，口味深受許多在地人推崇。', map: '#' }
+                ]
+            },
+            'coffin-bread': {
+                title: '棺材板',
+                img: 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                desc: '發源於台南沙卡里巴（現康樂市場）的特色點心。創始人受到西式濃湯的啟發，將厚片吐司下鍋油炸至金黃酥脆，中間挖空形成一個「盒」狀，填入以雞肝、雞肉、墨魚、蔬菜等熬煮的西式白醬濃湯，最後再將切下的吐司當作「蓋子」蓋上。吃的時候用刀叉切開，酥脆的吐司沾滿濃郁的奶香濃湯，風味絕佳。',
+                shops: [
+                    { name: '赤崁棺材板', desc: '位於康樂市場內的創始老店，至今仍保留傳統風味。', map: '#' }
+                ]
+            },
+            'desserts': {
+                title: '冰品與甜湯',
+                img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                desc: '台南人嗜甜，飯後甜點自然不可少。夏天必吃以新鮮水果製成的冰品，如玉井芒果冰，或是古早味的八寶冰、香蕉冰。冬天則有溫潤暖胃的紅豆湯、花生湯，配上Q彈的湯圓或椪餅。此外，傳統的布丁（烤布丁）也是許多人來台南必買的伴手禮。',
+                shops: [
+                    { name: '莉莉水果店', desc: '孔廟對面的老字號，水果冰新鮮澎湃，冬天也有熱甜湯。', map: '#' },
+                    { name: '冰鄉', desc: '民生路上的超人氣冰店，芒果季時總是大排長龍的芒果牛奶冰是必點。', map: '#' }
+                ]
+            }
+        };
+
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const modal = document.getElementById('modal');
+        
+        function openModal(foodId) {
+            const data = foodData[foodId];
+            if (!data) return;
+
+            // Track modal open in GA4
+            if (typeof gtag === 'function') {
+                gtag('event', 'view_item', {
+                    'item_id': foodId,
+                    'item_name': data.title,
+                    'item_category': 'food_details'
+                });
+                console.log(`GA4 Event Sent: View Item - ${data.title}`);
+            }
+
+            // Populate data
+            document.getElementById('modal-title').textContent = data.title;
+            document.getElementById('modal-img').src = data.img;
+            document.getElementById('modal-img').alt = data.title;
+            document.getElementById('modal-desc').textContent = data.desc;
+            
+            const shopsList = document.getElementById('modal-shops');
+            shopsList.innerHTML = '';
+            data.shops.forEach(shop => {
+                const li = document.createElement('li');
+                li.className = 'bg-gray-50 p-3 rounded-lg border border-gray-100 flex justify-between items-center';
+                li.innerHTML = `
+                    <div>
+                        <p class="font-bold text-brand-dark">${shop.name}</p>
+                        <p class="text-xs text-gray-500">${shop.desc}</p>
+                    </div>
+                    <a href="#" class="text-brand hover:text-brand-dark bg-brand-light/50 p-2 rounded-md transition-colors" onclick="trackClick('shop_map_${shop.name}', 'shop_link'); event.stopPropagation();" title="查看地圖">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </a>
+                `;
+                shopsList.appendChild(li);
+            });
+
+            // Show modal
+            modalBackdrop.classList.remove('hidden');
+            modal.classList.remove('hidden');
+            
+            // Trigger animation after slight delay to allow display:block to apply
+            setTimeout(() => {
+                modalBackdrop.classList.remove('opacity-0');
+                modal.classList.remove('opacity-0', 'scale-95');
+            }, 10);
+            
+            // Prevent body scrolling
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            // Animate out
+            modalBackdrop.classList.add('opacity-0');
+            modal.classList.add('opacity-0', 'scale-95');
+            
+            // Hide after animation completes
+            setTimeout(() => {
+                modalBackdrop.classList.add('hidden');
+                modal.classList.add('hidden');
+                document.body.style.overflow = ''; // Restore scrolling
+            }, 300);
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        // --- PWA: Service Worker 註冊 ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((reg) => {
+                        console.log('Service Worker 註冊成功，範圍:', reg.scope);
+                    })
+                    .catch((err) => {
+                        console.error('Service Worker 註冊失敗:', err);
+                    });
+            });
+        }
+
+        // --- PWA: 安裝提示 (beforeinstallprompt) ---
+        let deferredInstallPrompt = null;
+        const installBtn = document.getElementById('pwa-install-btn');
+
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            deferredInstallPrompt = event;
+            installBtn.classList.remove('hidden');
+            installBtn.classList.add('flex');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (!deferredInstallPrompt) return;
+            deferredInstallPrompt.prompt();
+            const { outcome } = await deferredInstallPrompt.userChoice;
+            trackClick(`pwa_install_${outcome}`, 'pwa');
+            deferredInstallPrompt = null;
+            installBtn.classList.add('hidden');
+            installBtn.classList.remove('flex');
+        });
+
+        window.addEventListener('appinstalled', () => {
+            trackClick('pwa_installed', 'pwa');
+            installBtn.classList.add('hidden');
+            installBtn.classList.remove('flex');
+        });
+
+        // --- PWA: 離線 / 上線狀態偵測 ---
+        const offlineBanner = document.getElementById('offline-banner');
+
+        function updateOnlineStatus() {
+            if (navigator.onLine) {
+                offlineBanner.classList.add('hidden');
+            } else {
+                offlineBanner.classList.remove('hidden');
+            }
+        }
+
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+    </script>
+</body>
+</html>
